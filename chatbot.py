@@ -2,10 +2,11 @@ from openai import OpenAI
 import streamlit as st
 import os 
 from dotenv import load_dotenv
+import requests
 
 # Set page title
 st.title("Chatbot basic")
-
+chat_url = "http://127.0.0.1:8000/chat/"
 # Load environment variables
 load_dotenv()
 
@@ -14,7 +15,7 @@ client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 # Set up session state
 if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-4o-mini"
+    st.session_state["openai_model"] = "gpt-3.5-turbo"
 
 # Set up chat messages
 if "messages" not in st.session_state:
