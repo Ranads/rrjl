@@ -1,4 +1,7 @@
 openai
 streamlit
 python-dotenv
+uvicorn
+pydantic
+fastapi
 
