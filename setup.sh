@@ -17,7 +17,10 @@ HOME_DIR=$(eval echo ~$USER)
 
 # Set up PostgreSQL database
 echo "Setting up database..."
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD '$PASSWORD'"
+export PGPASSWORD=$PASSWORD
+echo -u postgres psql -h chatbot-project6.postgres.database.azure.com -p 5432 -u azureadmin postgres
+chmod 600 $HOME/.pgpass
+#sudo -u postgres psql -c "ALTER USER postgres PASSWORD '$PASSWORD'"
 if ! sudo -u postgres psql -lqt | cut -d \| -f 1 | grep -qw project; then
     sudo -u postgres psql -c "CREATE DATABASE project"
 else
