@@ -47,7 +47,7 @@ jobs:
           --force-update \
           --publisher Microsoft.Azure.Extensions \
           --settings '{
-            "fileUris": ["https://raw.githubusercontent.com/Ranads/rrjl/main/rrjl/update_app.sh"]
+            "fileUris": ["https://raw.githubusercontent.com/Ranads/rrjl/main/update_app.sh"],
           }' \
           --protected-settings '{
            "commandToExecute": "export GITHUB_TOKEN=${{ secrets.TOKEN }} && sudo -u azureuser bash /home/azureuser/rrjl/update_app.sh"
