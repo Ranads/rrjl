@@ -40,15 +40,15 @@ jobs:
     # Update the VM with secure token passing
     - name: Azure VM Update
       run: |
-          az vm extension set \
-            --resource-group ${{ secrets.RESOURCE_GROUP }} \
-            --vm-name ${{ secrets.VM_NAME }} \
-            --name CustomScript \
-            --force-update \
-            --publisher Microsoft.Azure.Extensions 
-            --settings '{
-              "fileUris": ["https://raw.githubusercontent.com/Ranads/rrjl/main/rrjl/update_app.sh"]
-            }' \
-            --protected-settings '{
-              "commandToExecute": "export GITHUB_TOKEN=${{ secrets.TOKEN }} && bash update_app.sh"
-            }'
+         az vm extension set \
+          --resource-group ${{ secrets.RESOURCE_GROUP }} \
+          --vm-name ${{ secrets.VM_NAME }} \
+          --name CustomScript \
+          --force-update \
+          --publisher Microsoft.Azure.Extensions \
+          --settings '{
+            "fileUris": ["https://raw.githubusercontent.com/Ranads/rrjl/main/rrjl/update_app.sh"]
+         }' \
+         --protected-settings '{
+           "commandToExecute": "export GITHUB_TOKEN=${{ secrets.TOKEN }} && bash update_app.sh"
+         }'
