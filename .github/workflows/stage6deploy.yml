@@ -45,9 +45,7 @@ jobs:
             --vm-name ${{ secrets.VM_NAME }} \
             --name CustomScript \
             --force-update \
-            --publisher Microsoft.Azure.Extensions \
-            --type CustomScript \
-            --type-handler-version 2.1 \
+            --publisher Microsoft.Azure.Extensions 
             --settings '{
               "fileUris": ["https://raw.githubusercontent.com/Ranads/rrjl/main/rrjl/update_app.sh"]
             }' \
