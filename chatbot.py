@@ -89,7 +89,7 @@ def create_chat_with_pdf(chat_name, uploaded_pdf):
             save_chat_to_db(new_chat_id, chat_name, [], uploaded_pdf.name, pdf_path, pdf_uuid)
             st.success("Successed!")
         else:
-            st.error("Failed to upload PDF.")
+            st.error(f"Failed to upload PDF. {response.status_code} , {response.text}")
 
 def create_chat(chat_name):
     new_chat_id = str(uuid.uuid4())
