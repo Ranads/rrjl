@@ -35,7 +35,7 @@ jobs:
           source venv/bin/activate
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt --target=".python_packages/lib/site-packages"
 
       # Optional: Add step to run tests here
 
@@ -48,7 +48,7 @@ jobs:
           name: python-app
           path: |
             release.zip
-            !venv/
+         
 
   deploy:
     runs-on: ubuntu-latest
@@ -72,6 +72,9 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C11B60CE3BB94A5D88B43643A080D2B4 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5198EA61799541FE80660233E1CCA91A }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A14012D012ED4A20B080119CF1A80F80 }}
+      - name: Set Application Settings
+        run: |
+          az functionapp config appsettings set --name backend-serviceFA --resource-group pjc2 --settings "FUNCTIONS_WORKER_RUNTIME=python" "KEY_VAULT_NAME=key00v" "APPINSIGHTS_INSTRUMENTATIONKEY=c193b608-4419-41ae-b452-4f1f757f8099"
 
       - name: 'Deploy to Azure Functions'
         uses: Azure/functions-action@v1
@@ -80,4 +83,5 @@ jobs:
           app-name: 'backend-serviceFA'
           slot-name: 'Production'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          
+          scm-do-build-during-deployment: true
+          enable-oryx-build: true
