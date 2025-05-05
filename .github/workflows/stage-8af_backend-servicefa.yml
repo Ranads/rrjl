@@ -35,19 +35,20 @@ jobs:
           source venv/bin/activate
 
       - name: Install dependencies
-        run: pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+        run: pip install -r requirements.txt
 
       # Optional: Add step to run tests here
 
       - name: Zip artifact for deployment
-        run: zip -r release.zip ./* .python_packages/*
+        run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
-            release.zip   
+            release.zip
+            !venv/
 
   deploy:
     runs-on: ubuntu-latest
@@ -68,13 +69,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_07B10580D5D14D53AD3E423C81E1BF0B }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_47A1809520EB4896B01F3F736A952718 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_877164203B7C4841964EE68138F2855A }}
-
-      - name: Set Application Settings
-        run: |
-          az functionapp config appsettings set --name backend-serviceFA --resource-group pjc2 --settings "FUNCTIONS_WORKER_RUNTIME=python" "KEY_VAULT_NAME=key00v" "APPINSIGHTS_INSTRUMENTATIONKEY=c193b608-4419-41ae-b452-4f1f757f8099"
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C11B60CE3BB94A5D88B43643A080D2B4 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5198EA61799541FE80660233E1CCA91A }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A14012D012ED4A20B080119CF1A80F80 }}
 
       - name: 'Deploy to Azure Functions'
         uses: Azure/functions-action@v1
@@ -83,5 +80,4 @@ jobs:
           app-name: 'backend-serviceFA'
           slot-name: 'Production'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          scm-do-build-during-deployment: true
-          enable-oryx-build: true
+          
