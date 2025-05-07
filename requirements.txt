@@ -15,3 +15,6 @@ azure-keyvault-secrets
 pypdf
 python-multipart
 cryptography==41.0.2
+chromadb
+streamlit
+requests
